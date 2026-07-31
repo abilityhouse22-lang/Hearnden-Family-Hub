@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hearnden Family Hub</title>
+  <style>
+* { box-sizing: border-box; }
+
+:root {
+  --ink: #20302d;
+  --muted: #677773;
+  --paper: #f7f8f6;
+  --card: #ffffff;
+  --green: #355f56;
+  --soft-green: #dce9e4;
+  --blue: #dceaf5;
+  --yellow: #f7ebbd;
+  --red: #f4d9d6;
+  --purple: #e8dcf2;
+  --sand: #ece7dd;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.app-shell {
+  width: min(100%, 760px);
+  min-height: 100vh;
+  margin: 0 auto;
+  background: var(--card);
+}
+
+.hero {
+  padding: 32px 24px 24px;
+  background: linear-gradient(145deg, #355f56, #557f75);
+  color: white;
+  border-radius: 0 0 28px 28px;
+}
+
+.brand {
+  font-size: 0.9rem;
+  font-weight: 700;
+  opacity: 0.85;
+  margin-bottom: 8px;
+}
+
+.hero h1 {
+  margin: 0 0 8px;
+  font-size: clamp(1.8rem, 7vw, 2.7rem);
+}
+
+.hero p {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.screen {
+  display: none;
+  padding: 22px;
+}
+
+.screen.active {
+  display: block;
+}
+
+.action-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+
+.action {
+  min-height: 92px;
+  border: 0;
+  border-radius: 20px;
+  padding: 18px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  text-align: left;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.action .icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: rgba(255,255,255,0.7);
+  font-size: 1.4rem;
+}
+
+.enquiry { background: var(--blue); }
+.trip { background: var(--soft-green); }
+.medication { background: var(--yellow); }
+.incident { background: var(--red); }
+.feedback { background: var(--purple); }
+.support { background: var(--sand); }
+
+.secondary-actions {
+  display: grid;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.secondary-actions button,
+.secondary-actions a,
+.primary,
+.back {
+  border: 0;
+  border-radius: 14px;
+  padding: 16px;
+  font-size: 1rem;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+}
+
+.secondary-actions button {
+  background: #eef2f0;
+  color: var(--ink);
+}
+
+.emergency {
+  background: #9c2f2f;
+  color: white;
+  font-weight: 700;
+}
+
+.back {
+  background: transparent;
+  color: var(--green);
+  padding-left: 0;
+  font-weight: 700;
+}
+
+.form-card {
+  background: #fff;
+  border: 1px solid #dfe5e2;
+  border-radius: 22px;
+  padding: 22px;
+  box-shadow: 0 10px 30px rgba(32,48,45,0.07);
+}
+
+.form-card h2 {
+  margin-top: 0;
+}
+
+.field {
+  margin: 18px 0;
+}
+
+.field label,
+.legend {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 9px;
+}
+
+input, select, textarea {
+  width: 100%;
+  border: 2px solid #d9e0dd;
+  border-radius: 13px;
+  padding: 14px;
+  font: inherit;
+}
+
+textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.choice-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.choice {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px;
+  border: 2px solid #dfe5e2;
+  border-radius: 13px;
+}
+
+.choice input {
+  width: auto;
+}
+
+.primary {
+  width: 100%;
+  background: var(--green);
+  color: white;
+  font-weight: 700;
+  margin-top: 12px;
+}
+
+.notice {
+  background: #fff2cf;
+  border-left: 5px solid #c79821;
+  border-radius: 8px;
+  padding: 12px;
+  line-height: 1.45;
+}
+
+.success {
+  text-align: center;
+  padding-top: 70px;
+}
+
+.success-mark {
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  margin: 0 auto 20px;
+  background: var(--soft-green);
+  color: var(--green);
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+@media (min-width: 650px) {
+  .action-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+</style>
+</head>
+<body>
+  <main class="app-shell">
+    <header class="hero">
+      <div class="brand">Ability House</div>
+      <h1>Hearnden Family Hub</h1>
+      <p>How can we help today?</p>
+    </header>
+
+    <section id="home" class="screen active">
+      <div class="action-grid">
+        <button class="action enquiry" data-form="enquiry">
+          <span class="icon">?</span>
+          <span>Ask a Question</span>
+        </button>
+
+        <button class="action trip" data-form="trip">
+          <span class="icon">🚐</span>
+          <span>Request a Day Trip</span>
+        </button>
+
+        <button class="action medication" data-form="medication">
+          <span class="icon">💊</span>
+          <span>Medication Concern</span>
+        </button>
+
+        <button class="action incident" data-form="incident">
+          <span class="icon">!</span>
+          <span>Something Happened</span>
+        </button>
+
+        <button class="action feedback" data-form="feedback">
+          <span class="icon">💬</span>
+          <span>Support Worker Feedback</span>
+        </button>
+
+        <button class="action support" data-form="support">
+          <span class="icon">📅</span>
+          <span>Support Request</span>
+        </button>
+      </div>
+
+      <div class="secondary-actions">
+        <button data-form="messages">Messages from Ability House</button>
+        <a href="tel:000" class="emergency">Emergency — Call 000</a>
+      </div>
+    </section>
+
+    <section id="form-screen" class="screen">
+      <button id="backBtn" class="back">← Back</button>
+      <div id="formContainer"></div>
+    </section>
+
+    <section id="success-screen" class="screen success">
+      <div class="success-mark">✓</div>
+      <h2>Thank you</h2>
+      <p>Your information has been received.</p>
+      <button id="homeBtn" class="primary">Return Home</button>
+    </section>
+  </main>
+
+  <script>
+const home = document.getElementById('home');
+const formScreen = document.getElementById('form-screen');
+const successScreen = document.getElementById('success-screen');
+const formContainer = document.getElementById('formContainer');
+
+const people = `
+  <div class="field">
+    <span class="legend">Who is this about?</span>
+    <div class="choice-grid">
+      ${['Debbie','Wayne','Amy'].map(name => `
+        <label class="choice"><input type="radio" name="person" value="${name}" required> ${name}</label>
+      `).join('')}
+    </div>
+  </div>`;
+
+const forms = {
+  enquiry: {
+    title: 'Ask a Question',
+    body: `${people}
+      <div class="field">
+        <label for="topic">What is your question about?</label>
+        <select id="topic" name="topic" required>
+          <option value="">Choose one</option>
+          <option>Roster or support hours</option>
+          <option>Appointment or activity</option>
+          <option>Medication</option>
+          <option>Household support</option>
+          <option>Funding or services</option>
+          <option>Something else</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="message">Your question</label>
+        <textarea id="message" name="message" placeholder="Type your question here" required></textarea>
+      </div>`
+  },
+  trip: {
+    title: 'Request a Day Trip',
+    body: `${people}
+      <div class="field"><label>Where would you like to go?</label><input name="destination" required></div>
+      <div class="field"><label>Preferred date</label><input type="date" name="date" required></div>
+      <div class="field"><label>Preferred start time</label><input type="time" name="start"></div>
+      <div class="field"><label>Preferred finish time</label><input type="time" name="finish"></div>
+      <div class="field">
+        <label>What support is needed?</label>
+        <textarea name="supportNeeded" placeholder="Transport, mobility assistance, personal care, medication, tickets or anything else"></textarea>
+      </div>
+      <div class="notice">This request is not confirmed until Ability House responds.</div>`
+  },
+  medication: {
+    title: 'Medication Concern',
+    body: `${people}
+      <div class="field">
+        <span class="legend">What happened?</span>
+        <div class="choice-grid">
+          ${['Medication was missed','Medication was given late','Wrong medication','Wrong dose','Medication is running low','Medication was refused','Medication was not signed','Something else'].map(x => `<label class="choice"><input type="radio" name="issue" value="${x}" required> ${x}</label>`).join('')}
+        </div>
+      </div>
+      <div class="field"><label>Date and approximate time</label><input type="datetime-local" name="when"></div>
+      <div class="field"><label>Medication name, if known</label><input name="medication"></div>
+      <div class="field"><label>Tell us what happened</label><textarea name="details"></textarea></div>
+      <div class="notice">For a wrong medication, wrong dose, or if someone is unwell, seek medical advice immediately. Do not wait for this form to be reviewed.</div>`
+  },
+  incident: {
+    title: 'Something Happened',
+    body: `${people}
+      <div class="field">
+        <span class="legend">What happened?</span>
+        <div class="choice-grid">
+          ${['A fall or near fall','Someone was hurt','A support worker concern','Property was damaged','Someone became distressed','A safety concern','Something else'].map(x => `<label class="choice"><input type="radio" name="incidentType" value="${x}" required> ${x}</label>`).join('')}
+        </div>
+      </div>
+      <div class="field"><label>Date and approximate time</label><input type="datetime-local" name="when"></div>
+      <div class="field"><label>Tell us what happened</label><textarea name="details" required></textarea></div>
+      <div class="field"><label>Does anyone need urgent help?</label>
+        <select name="urgent"><option>No</option><option>Yes</option><option>Not sure</option></select>
+      </div>
+      <div class="notice">For immediate danger or a medical emergency, call 000.</div>`
+  },
+  feedback: {
+    title: 'Support Worker Feedback',
+    body: `${people}
+      <div class="field">
+        <span class="legend">What kind of feedback would you like to give?</span>
+        <div class="choice-grid">
+          ${['Great support today','I have a suggestion','Something needs improvement','I am concerned','Worker was late or did not attend','Instructions were not followed'].map(x => `<label class="choice"><input type="radio" name="feedbackType" value="${x}" required> ${x}</label>`).join('')}
+        </div>
+      </div>
+      <div class="field"><label>Support worker's name, if known</label><input name="worker"></div>
+      <div class="field"><label>Date of support</label><input type="date" name="date"></div>
+      <div class="field"><label>Tell us more</label><textarea name="details" required></textarea></div>
+      <div class="field"><label>Would you like someone to contact you?</label>
+        <select name="contact"><option>No</option><option>Yes</option></select>
+      </div>`
+  },
+  support: {
+    title: 'Support Request',
+    body: `${people}
+      <div class="field">
+        <span class="legend">What do you need?</span>
+        <div class="choice-grid">
+          ${['Extra support hours','Cancel a shift','Change a shift time','Support for an appointment','Transport support','Shopping support','Ask who is working','Something else'].map(x => `<label class="choice"><input type="radio" name="requestType" value="${x}" required> ${x}</label>`).join('')}
+        </div>
+      </div>
+      <div class="field"><label>Preferred date</label><input type="date" name="date"></div>
+      <div class="field"><label>Tell us what you need</label><textarea name="details"></textarea></div>
+      <div class="notice">Requests are not confirmed until Ability House responds.</div>`
+  },
+  messages: {
+    title: 'Messages from Ability House',
+    body: `<div class="notice">No new messages are available in this prototype.</div>
+      <p>This section will later show replies, approvals, updates and important notices.</p>`
+  }
+};
+
+function showScreen(screen) {
+  [home, formScreen, successScreen].forEach(x => x.classList.remove('active'));
+  screen.classList.add('active');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function openForm(type) {
+  const item = forms[type];
+  const submitButton = type === 'messages' ? '' : '<button class="primary" type="submit">Submit</button>';
+  formContainer.innerHTML = `
+    <form class="form-card" id="activeForm">
+      <h2>${item.title}</h2>
+      ${item.body}
+      ${submitButton}
+    </form>`;
+  showScreen(formScreen);
+
+  const activeForm = document.getElementById('activeForm');
+  if (type !== 'messages') {
+    activeForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const data = Object.fromEntries(new FormData(activeForm).entries());
+      const saved = JSON.parse(localStorage.getItem('hearndenSubmissions') || '[]');
+      saved.push({type, submittedAt: new Date().toISOString(), ...data});
+      localStorage.setItem('hearndenSubmissions', JSON.stringify(saved));
+      showScreen(successScreen);
+    });
+  }
+}
+
+document.querySelectorAll('[data-form]').forEach(btn => {
+  btn.addEventListener('click', () => openForm(btn.dataset.form));
+});
+
+document.getElementById('backBtn').addEventListener('click', () => showScreen(home));
+document.getElementById('homeBtn').addEventListener('click', () => showScreen(home));
+
+</script>
+</body>
+</html>
